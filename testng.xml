@@ -1,0 +1,29 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="TestAll">
+
+	<test name="ValidateCustomers Test"  preserve-order="true">
+		<classes>
+			<class name="org.testng.validateorders.OrderTest">
+				<methods>
+					<include name="applicationLoginIn" />
+				</methods>
+			</class>
+
+			<class name="org.testng.validatemasters.CustomerTest">
+				<methods>
+				    <include name="navigateToCustomer" />
+					<include name="verifyUserIsAbleToAddACustomerSuccessfully" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+
+	<!-- <test name="ValidateOrders Test">
+		<classes>
+			<class name="org.testng.validateorders.OrderTest" />
+			<include name="applicationLoginIn"></include>
+			<include name="verifyUserIsAbleToEditOrderSuccessfully"></include>
+		</classes>
+	</test> -->
+</suite>
