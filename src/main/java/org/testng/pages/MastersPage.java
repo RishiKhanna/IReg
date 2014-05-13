@@ -46,9 +46,8 @@ public class MastersPage extends PageBase {
 		return this;
 	}
 
-	public MastersPage verifyCustomerDetails(String [][] strExcel) {
+	public boolean verifyCustomerDetails(String [][] strExcel) {
 		String str[]=action.getWebElementsTextInStringArray(customerDetailsLocator);
-		verify.compareMultipleText(strExcel, str, 1, 3);
-		return this;
+		return verify.compareMultipleText(strExcel, str, 1, 3);
 	}
 }
