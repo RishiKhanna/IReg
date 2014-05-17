@@ -10,7 +10,7 @@ public class CustomerTest extends TestBase {
 	private MastersPage mastersPage;
 
 	@Test
-	public void navigateToCustomer() {
+	public void navigateToCustomer(){
 		homePage.clickOnMaster();
 		homePage.clickOnCustomer();
 	}
@@ -43,6 +43,7 @@ public class CustomerTest extends TestBase {
 			report.sendStatusToReport(2, "Validate Added Customers", "TC2",
 					"Verify that user is able to Add Customer Successfully",
 					"Fail", as.getMessage());
+			as.printStackTrace();
 			Assert.fail(as.getMessage());
 		}
 	}

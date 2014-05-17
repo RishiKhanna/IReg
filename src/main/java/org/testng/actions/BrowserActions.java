@@ -1,5 +1,6 @@
 package org.testng.actions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -37,7 +38,8 @@ public class BrowserActions {
 	}
 
 	public String retrieveDataFromCookie(String key) {
-		log.info("Retrieving the value " + driver.manage().getCookieNamed(key).getValue()
+		log.info("Retrieving the value "
+				+ driver.manage().getCookieNamed(key).getValue()
 				+ " stored in the cookie");
 		return driver.manage().getCookieNamed(key).getValue();
 	}
@@ -73,7 +75,8 @@ public class BrowserActions {
 		webElement.clear();
 		log.info("Contents cleared");
 		webElement.sendKeys(value);
-		log.info("Entered text:" + value + " in text box with locator:" + element);
+		log.info("Entered text:" + value + " in text box with locator:"
+				+ element);
 	}
 
 	public void click(By element) throws TimeoutException {
@@ -83,7 +86,8 @@ public class BrowserActions {
 
 	public void contextClick(By element) throws TimeoutException {
 		Actions action = new Actions(driver);
-		action.contextClick(wait.waitForElementVisibility(driver, element)).perform();
+		action.contextClick(wait.waitForElementVisibility(driver, element))
+				.perform();
 		log.info("Context clicked on element with locator:" + element);
 	}
 
@@ -99,13 +103,17 @@ public class BrowserActions {
 	}
 
 	public void switchToSecondaryWindow(String windowTitle) {
-		log.info("Supplied window title: " + windowTitle);
+		wait.waitForTimePeriod(10000);
+		log.info("Secondary window title for switching: " + windowTitle);
 		Set<String> windows = driver.getWindowHandles();
+		log.info("Windows="+windows.toString());
 		for (String strWindows : windows) {
-			if (driver.switchTo().window(strWindows).getTitle().equals(windowTitle)) {
+			if (driver.switchTo().window(strWindows).getTitle()
+					.equals(windowTitle)) {
 				log.info("Switched to the window with title: "
 						+ driver.switchTo().window(strWindows).getTitle());
-				driver.switchTo().window(strWindows).manage().window().maximize();
+				driver.switchTo().window(strWindows).manage().window()
+						.maximize();
 				log.info("Maximized the window with title "
 						+ driver.switchTo().window(strWindows).getTitle());
 				break;
@@ -114,9 +122,12 @@ public class BrowserActions {
 	}
 
 	public void selectOption(By parentLocator, String value) {
-		List<WebElement> element = wait.waitForElementsVisibility(driver, parentLocator);
+		List<WebElement> element = wait.waitForElementsVisibility(driver,
+				parentLocator);
+		log.info("Size of the elements in the list="+element.size());
+		log.info("Elements="+element.toString());
 		for (int i = 0; i < element.size(); i++) {
-			String temp = element.get(i).getAttribute("innerText")
+			String temp = element.get(i).getText()
 					.replace((char) 0x00a0, (char) 0x0020);
 			if (verify.compareExactText(value, (temp.trim()))) {
 				log.info("Clicking on option " + value);
@@ -126,15 +137,18 @@ public class BrowserActions {
 			}
 		}
 	}
-
+	
 	public void selectFromDropDown(By element, String value) {
-		Select select = new Select(wait.waitForElementVisibility(driver, element));
+		Select select = new Select(wait.waitForElementVisibility(driver,
+				element));
 		select.selectByVisibleText(value);
-		log.info("Selected:" + value + " from drop-down with locator:" + element);
+		log.info("Selected:" + value + " from drop-down with locator:"
+				+ element);
 	}
 
 	public String getText(By element) {
-		log.info("Actual Value:" + wait.waitForElementVisibility(driver, element).getText());
+		log.info("Actual Value:"
+				+ wait.waitForElementVisibility(driver, element).getText());
 		return wait.waitForElementVisibility(driver, element).getText();
 	}
 
@@ -144,18 +158,21 @@ public class BrowserActions {
 	}
 
 	public String getAttributeValue(By element, String attribute) {
-		log.info("Retrieving the attribute " + attribute + " of element " + element);
-		return wait.waitForElementVisibility(driver, element).getAttribute(attribute);
+		log.info("Retrieving the attribute " + attribute + " of element "
+				+ element);
+		return wait.waitForElementVisibility(driver, element).getAttribute(
+				attribute);
 	}
 
-	public String[] getWebElementsTextInStringArray(By locator) {
-		log.info("Coverting the locator into a list of String Array");
-		List<WebElement> weblElementList = wait.waitForElementsPresence(driver, locator);
+	public List <String> getWebElementsTextInList(By locator) {
+		log.info("Coverting the locator into a List of String");
+		List<WebElement> weblElementList = wait.waitForElementsPresence(driver,
+				locator);
 		log.info("List of size=" + weblElementList.size() + " elements created");
-		String str[]=new String [weblElementList.size()];
+		List <String> list = new ArrayList<String>();
 		for (int i = 0; i < weblElementList.size(); i++) {
-			str[i]=weblElementList.get(i).getAttribute("innerText");
+			list.add(weblElementList.get(i).getText());
 		}
-		return str;
+		return list;
 	}
 }

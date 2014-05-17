@@ -1,5 +1,6 @@
 package org.testng.utilities;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -38,12 +39,20 @@ public class Utilities {
 		log.info("List to String Array Conversion function");
 		log.info("Size of the list obtained=" + list.size());
 		Object obj[] = list.toArray();
-		String str[] = new String[ obj.length];
+		String str[] = new String[obj.length];
 		for (int i = 0; i < obj.length; i++) {
-			str[i] = obj[i].toString();
+			str[i] = (String) obj[i];
 		}
 		return str;
-		// return Arrays.copyOf(list.toArray(), list.toArray().length,
-		// String[].class);
+	}
+
+	public List<String> covert2DArrayToList(String array2D[][]) {
+		List<String> list =new ArrayList<String>();		
+		for (int i = 0; i < array2D.length; i++) {
+			for (int j = 0; j < array2D[i].length; j++) {
+				list.add(array2D[i][j]);
+			}
+		}
+		return list;
 	}
 }

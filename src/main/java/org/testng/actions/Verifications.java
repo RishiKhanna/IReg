@@ -1,5 +1,7 @@
 package org.testng.actions;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.testng.utilities.Logg;
 
@@ -19,31 +21,34 @@ public class Verifications {
 		return actual.contains(expected);
 	}
 
-	public boolean compareMultipleText(String excelArray[][], String webElementArray[],
-			int... index) {
-		int column = 0;
+	public boolean compareMultipleText(List<String> excelArray,
+			List<String> webElementArray, int... index) {
+
+		int count = 0;
 
 		if (index.length == 0) {
 			index[0] = 0;
-			column = webElementArray.length;
-		} else if (index.length == 1 && index[0] < webElementArray.length) {
-			column = webElementArray.length;
-		} else if (index.length == 2 && index[1] < webElementArray.length && index[0] < index[1]) {
-			column = index[1];
+			count = webElementArray.size();
+		} else if (index.length == 1 && index[0] < webElementArray.size()) {
+			count = webElementArray.size();
+		} else if (index.length == 2 && index[1] < webElementArray.size()
+				&& index[0] < index[1]) {
+			count = index[1];
 		}
 
-		log.info("Length of index is " + index.length);
-		for (int i = 0; i < excelArray.length; i++) {
-			for (int j = index[0]; j < column; j++) {
-				if (!(excelArray[i][j].equals(webElementArray[j]))) {
-					log.info("Value from Test Data sheet " + excelArray[i][j]);
-					log.info("Value from the application " + webElementArray[j]);
-					log.info("Returning False");
-					return false;
-				} else {
-					log.info("Value from Test Data sheet " + excelArray[i][j]);
-					log.info("Value from the application " + webElementArray[j]);
-				}
+		log.info("Size of the Excel Array List=" + excelArray.size());
+		log.info("Size of the Web Element Array List=" + webElementArray.size());
+		for (int i = index[0]; i < count; i++) {
+			log.info("Comparing value no:" + i);
+			if (excelArray.get(i).equals(webElementArray.get(i))) {
+				log.info("Value from Test Data sheet " + excelArray.get(i));
+				log.info("Value from the application " + webElementArray.get(i));
+				log.info("Both the values are equal.");
+			} else {
+				log.info("Value from Test Data sheet " + excelArray.get(i));
+				log.info("Value from the application " + webElementArray.get(i));
+				log.info("Values are not equal. Returning False");
+				return false;
 			}
 		}
 		return true;

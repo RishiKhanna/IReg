@@ -2,6 +2,8 @@ package org.testng.pages;
 
 import static org.testng.pages.locators.MastersLocators.*;
 
+import java.util.List;
+
 public class MastersPage extends PageBase {
 
 	public MastersPage enterCustomerCode(String value) {
@@ -47,7 +49,7 @@ public class MastersPage extends PageBase {
 	}
 
 	public boolean verifyCustomerDetails(String [][] strExcel) {
-		String str[]=action.getWebElementsTextInStringArray(customerDetailsLocator);
-		return verify.compareMultipleText(strExcel, str, 1, 3);
+		List<String> webElementList=action.getWebElementsTextInList(customerDetailsLocator);
+		return verify.compareMultipleText(util.covert2DArrayToList(strExcel), webElementList,0,4);
 	}
 }
